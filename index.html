@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <style type="text/css">
+        body{margin: 0; background-image: url('back.jpg'); background-size: cover;}
+        #poetText{font-family: 'Noto Serif KR', serif; position: absolute; 
+            left: 400px; top: 100px; font-size: 1.2rem;}
+        .flip-horizontal{transform: scaleX(-1); display: inline-block;}
+        #previousPoet{opacity: 0.3; position: absolute; left: 0; top: 0;}
+    </style>
+</head>
+<body>
+    <div id="poetText" onclick="changePT()">
+        <div id="previousPoet"></div>
+    </div>
+    <script type="text/javascript">
+        let poet1 = "<strong>진단 <strong>0 <strong>: <strong>1<br><br> 어떤환자의용태에관한문제.<br> 1234567890⦁<br>123456789⦁0<br>12345678⦁90<br>1234567⦁890<br>123456⦁7890<br>12345⦁67890<br>1234⦁567890<br>123⦁4567890<br>12⦁34567890<br>1⦁234567890<br>⦁1234567890<br><br> 진단 0 : 1<br> 26·10·1931<br> 이상 책임의사 이 상<br><br> - <조선과건축>, 1932.07.";
+        let poetArr = poet1.split(" ");
+        let poet2 = "<strong>시제4호<br><br> 환자의 용태에 관한 문제.<br> 1234567890⦁<br>123456789⦁0<br>12345678⦁90<br>1234567⦁890<br>123456⦁7890<br>12345⦁67890<br>1234⦁567890<br>123⦁4567890<br>12⦁34567890<br>1⦁234567890<br>⦁1234567890<br><br> 진단 0 · 1<br> 26·10·1931<br> 이상 책임의사 이 상<br><br> - <조선중앙일보>, 1934.07.28.";
+        let poet2Arr = poet2.split(" ");
+        let currentPoetArr = poetArr;
+        let poetText = document.getElementById("poetText");
+        let previousPoetDiv = document.getElementById("previousPoet");
+        let myTimer;
+        let s = 0;
+
+        function print(){
+            let t= document.createElement("span");
+            t.innerHTML = currentPoetArr[s] + " ";
+            t.className = "word";
+            s++;
+            poetText.appendChild(t);
+            if(s == poetArr.length){
+                clearInterval(myTimer);
+                addAdditionalText();
+            }
+        }
+        function addAdditionalText() {
+        let additionalText = document.createElement("div");
+        additionalText.textContent = "이상은 자신의 시를 패러디하곤 했습니다. 시를 클릭해 비교해 보세요.";
+        additionalText.style.opacity = 0.5;
+        additionalText.style.fontSize = "0.8rem";
+        poetText.appendChild(additionalText);
+        }
+        function changePT(){
+            clearInterval(myTimer);
+            poetText.innerHTML = "";
+            poetText.style.opacity = 1;
+            if(currentPoetArr === poetArr){
+                currentPoetArr = poet2Arr;
+            }else{
+                currentPoetArr = poetArr;
+            }
+            s = 0;
+            myTimer = setInterval(print,500);
+            previousPoetDiv.style.opacity = 0.5;
+            let previousPoetCopy = previousPoetDiv.cloneNode(true);
+            previousPoetCopy.style.opacity = 0.5;
+            poetText.appendChild(previousPoetCopy);
+        }
+        myTimer = setInterval(print, 500);
+    </script>
+</body>
+</html>
